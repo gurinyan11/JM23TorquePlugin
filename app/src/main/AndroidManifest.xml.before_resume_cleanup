@@ -1,0 +1,75 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <queries>
+        <package android:name="org.prowl.torque" />
+    </queries>
+
+    <application
+        android:icon="@drawable/jm23_plugin_icon"
+        android:allowBackup="false"
+        android:label="JM23 Torque Bridge"
+        android:supportsRtl="true">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".PluginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="org.prowl.torque.ACTIVITY_PLUGIN" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name=".BootReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="jp.jb23.torqueplugin.ACTION_BOOT_RETRY" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".TorquePidReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="org.prowl.torque.PID_QUERY" />
+            <action android:name="org.prowl.torque.PID_PLUGIN" />
+                <action android:name="org.prowl.torque.APP_LAUNCHED" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".BridgeService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Reads the vehicle ECU through the locally installed Torque Pro service and publishes a JB23 RPM sensor back to Torque." />
+        </service>
+
+        <activity
+            android:name=".TorqueResumeActivity"
+            android:exported="true"
+            android:label="Torque Resume">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

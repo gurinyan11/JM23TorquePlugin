@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
+
+        <TextView
+            android:id="@+id/fuel_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fuel: --"
+            android:textSize="16sp"
+            android:textIsSelectable="true"
+            android:paddingBottom="8dp" />
+
+    </HorizontalScrollView>
+
+    <Button
+        android:id="@+id/fuel_baseline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="FULL TANK BASELINE" />
+
+    <EditText
+        android:id="@+id/fuel_liters_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:hint="Fill liters (e.g. 28.50)" />
+
+    <Button
+        android:id="@+id/fuel_fill"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="RECORD FULL TANK FILL" />
+
+    <Button
+        android:id="@+id/fuel_full_tank"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="FULL TANK" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/fuel_tank_39"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="39 L" />
+
+        <Button
+            android:id="@+id/fuel_tank_40"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="40 L" />
+
+        <Button
+            android:id="@+id/fuel_tank_41"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="41 L" />
+
+    </LinearLayout>
+
+    <Button android:id="@+id/start" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="START / RESTART DEBUG" />
+    <Button android:id="@+id/stop" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="STOP" />
+    <Button android:id="@+id/clear" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="CLEAR LOG" />
+
+    <ScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:fillViewport="true">
+        <TextView android:id="@+id/status" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="No debug data yet. Press START." android:textSize="14sp" android:textIsSelectable="true" android:paddingTop="12dp" />
+    </ScrollView>
+</LinearLayout>

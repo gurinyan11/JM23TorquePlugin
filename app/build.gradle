@@ -1,0 +1,26 @@
+plugins { id 'com.android.application' }
+
+android {
+    namespace 'jp.jb23.torqueplugin'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'jp.jb23.torqueplugin'
+        minSdk 23
+        targetSdk 35
+        versionCode 8
+        versionName '0.8-app-launched'
+    }
+}
+
+// v0.4 deliberately does not use Android's aidl compiler.
+// ITorqueService.java is bundled as a small Binder client compatible with
+// the public Torque AIDL transaction order used by the methods we call.
+
+android {
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "JM23TorquePlugin-${variant.buildType.name}.apk"
+        }
+    }
+}
