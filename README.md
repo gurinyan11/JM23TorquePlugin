@@ -1,28 +1,143 @@
-# JB23 Torque Bridge v0.4-test
+# JM23 Torque Bridge
 
-AndroidIDE/TB320FC test build.
+**MAZDA AZ-OFFROAD JM23W 7型 ECUデータ解析・Torque Pro連携プロジェクト**
 
-## v0.4 change
+第一期開発記録 — 2026年10月8日時点
 
-This version does **not** invoke the Android `aidl` compiler.  The TB320FC is
-ARM64, while the SDK `aidl` binary previously installed under
-`/opt/android_sdk/build-tools/34.0.0/aidl` was x86_64.
+## 1. プロジェクトの目的
 
-A minimal Java Binder client for Torque's public ITorqueService is bundled in
-`app/src/main/java/org/prowl/torque/remote/ITorqueService.java`.
+JM23は、MAZDA AZ-OFFROAD JM23W 7型のECUから取得できる車両データを解析し、Torque Pro上で利用可能にすることを目的としたプロジェクトです。
 
-The plugin sends header `7E0`, command `2100`, locally reconstructs ISO-TP, then
-reads local-data bytes 35/36 as big-endian RPM with scale 0.25.
+対象車両は、SUZUKI Jimny JB23WをベースとするOEM供給車です。
 
-## Build on TB320FC
+開発の出発点は、SZ Viewerが取得・表示している車両固有データを調査し、その取得方法と数値の解釈を明らかにすることでした。
 
-Use the AndroidIDE terminal from the project root.  If AndroidIDE's Run button
-still starts Java 8, run Gradle explicitly with JDK 17:
+解析したデータをTorque Proへ受け渡すAndroidプラグインを開発することで、Torque Proのダッシュボード上で車両状態を表示し、将来の機能追加にも利用できる基盤の構築を目指しました。
 
-    export JAVA_HOME=/opt/java/jdk-17.0.20.1+1
-    export PATH="$JAVA_HOME/bin:$PATH"
-    ./gradlew assembleDebug
+## 2. 第一期開発の主要成果
 
-The debug APK should be produced under:
+第一期開発で成立した中心的な成果は、次のデータ経路です。
 
-    app/build/outputs/apk/debug/app-debug.apk
+**JM23W 7型 ECU → ELM327 → Torque Pro通信サービス → JM23による応答解析 → Torque Pro独自PID → ダッシュボード表示**
+
+この仕組みにより、ECUの応答から取り出した数値を、Torque ProのGUI上で表示できるようになりました。
+
+単独の数値表示だけでなく、解析対象を増やすことで、複数の車両情報を同じ表示環境へ追加できる構成となっています。
+
+この拡張可能なECUデータ連携基盤の成立を、第一期開発の主要な到達点と位置づけます。
+
+## 3. ECUデータ解析
+
+JM23は、Torque Proの通信サービスを介してECUへ問い合わせを行います。
+
+現行実装では、ヘッダー `7E0`、コマンド `2100` を使用し、受信した応答をアプリ内部で再構成・解析します。
+
+解析対象の一例として、以下の変換を使用しています。
+
+- エンジン回転数：`word[35] × 0.25 rpm`
+- 噴射時間：`word[23] × 0.001 ms`
+
+各項目について、応答中の位置、数値の解釈、単位、妥当性判定を実装し、Torque Proへ公開します。
+
+SZ Viewerの解析過程で得られた情報と、JM23の実装・実車試験によって確認した情報は区別して記録します。
+
+また、OEM元であるJB23Wの技術情報を参照する場合も、JM23W実車での動作確認と同一視しません。
+
+## 4. Torque Proへの連携と可視化
+
+JM23は、Torque Proが提供するサービスとの連携により、解析結果を独自PIDとして公開します。
+
+Torque Pro側では、これらの値を既存のダッシュボード機能で表示できます。
+
+この構成では、車両固有データの取得・解析をJM23が担当し、表示方法や画面配置はTorque ProのGUI機能を利用します。
+
+独自の表示システムを一から構築せず、既存の汎用表示環境を活用できる点が特徴です。
+
+## 5. 拡張可能な構造
+
+新しいECU項目を追加する際の基本的な工程は、次のとおりです。
+
+1. SZ Viewerなどを参考に対象データを調査する。
+2. ECU応答内の該当位置と変換方法を確認する。
+3. JM23へ値の抽出・変換処理を追加する。
+4. Torque Proへ独自PIDとして公開する。
+5. JM23W実車で数値の妥当性と表示動作を検証する。
+
+この工程を既存の構造に沿って繰り返すことで、対応項目を増やせます。
+
+ただし、すべての車両情報がECUから取得できるわけではなく、項目ごとの検証が必要です。
+
+## 6. 動作環境
+
+第一期の主な実車試験環境は以下のとおりです。
+
+- **車両：MAZDA AZ-OFFROAD JM23W 7型**
+- OEM元：SUZUKI Jimny JB23W
+- 通信アダプター：ELM327 v1.5互換機
+- 車載Android端末：ATOTO S8MS
+- 表示環境：Torque Pro
+- 連携アプリ：JM23 Torque Bridge
+- 起動補助：MacroDroid
+
+長時間スリープ後の接続復帰には未解決の問題があり、現行運用ではMacroDroidによる補助を併用しています。
+
+## 7. 開発・解析環境
+
+第一期開発では、Lenovo TB320FCを主な開発・解析端末として使用しました。
+
+AndroidIDEによるアプリ開発のほか、SZ Viewer、DeAPK、Serial Bluetooth系ツールなどを用いて、APK内部構造やECU通信の調査を進めました。
+
+第一期後半にはGitHubによるソース管理と、Termux・Codexを用いた開発環境の試験導入も行いました。
+
+ARM64端末上で導入済みのx86_64版 `aidl` が動作しなかったため、現行プロジェクトではJava Binderクライアントを同梱しています。
+
+### ビルド
+
+AndroidIDEのプロジェクトルートからJDK 17を指定してビルドします。
+
+```sh
+export JAVA_HOME=/opt/java/jdk-17.0.20.1+1
+export PATH="$JAVA_HOME/bin:$PATH"
+./gradlew assembleDebug
+```
+
+APK出力先：
+
+`app/build/outputs/apk/debug/JM23TorquePlugin-debug.apk`
+
+## 8. 基盤を利用した追加機能
+
+ECUデータの取得・解析・公開が成立した後、そのデータを利用した機能の実装も進めました。
+
+### Trip距離積算
+
+取得した車速と経過時間から走行距離を積算し、値を端末内に保存する機能です。
+
+### 燃料管理
+
+エンジン回転数と噴射時間から噴射開弁時間を積算し、実際の給油量による校正を経て燃料消費量・残量を推定する機能です。
+
+これらはJM23の基盤を利用した応用機能であり、プロジェクト本来の目的そのものではありません。
+
+燃料管理の5回校正など、実装済みでも検証が完了していない部分があります。
+
+## 9. 第一期開発時点の未解決事項
+
+- 長時間スリープ後の接続復帰の安定化
+- ECUデータ項目ごとの解析・実車検証
+- ECUから直接取得できない情報への対応
+- 通信停止時の積算処理の制約
+- Trip・燃料管理などの追加機能の検証と改善
+- 操作画面と運用手順の整理
+
+これらは第一期時点での状態を示すものであり、本資料で第二期の開発方針を決定するものではありません。
+
+## 10. 本資料の位置づけ
+
+本READMEは、2026年10月8日時点におけるJM23の技術的到達点を記録するものです。
+
+第一期の主要成果は、**MAZDA AZ-OFFROAD JM23W 7型のECUデータを解析し、Torque Pro上で取得・表示できる拡張可能な連携基盤を成立させたこと**です。
+
+今後の機能追加や改修は、この時点の記録とは区別して扱います。
+
+本資料は開発完了の宣言ではなく、開発過程における一つの基準点です。
