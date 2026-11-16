@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:padding="16dp">
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="JM23 TPMS • Torque connection test" android:textSize="20sp" android:paddingBottom="16dp" />
+    <Button android:id="@+id/start" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:text="START TORQUE LINK TEST" />
+    <Button android:id="@+id/stop" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:text="STOP TORQUE LINK TEST" />
+    <TextView android:id="@+id/status" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:text="Not tested"
+        android:textIsSelectable="true" android:paddingTop="12dp" />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Phase 0: no USB, no tire sensors, no ECU commands, no dummy PID."
+        android:paddingTop="16dp" />
+</LinearLayout>
