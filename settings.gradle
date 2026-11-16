@@ -2,3 +2,8 @@ pluginManagement { repositories { google(); mavenCentral(); gradlePluginPortal()
 dependencyResolutionManagement { repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS); repositories { google(); mavenCentral() } }
 rootProject.name = 'JB23TorquePlugin'
 include ':app'
+
+// Separate TPMS application: build from the cloned repository root without
+// opening the AndroidIDE-private standalone-tpms subdirectory.
+include ':tpmsApp'
+project(':tpmsApp').projectDir = file('standalone-tpms/app')
