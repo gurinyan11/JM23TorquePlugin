@@ -50,3 +50,7 @@ Test sequence: assembleDebug and install this package over Phase 0 (same debug s
 Confirm Torque still binds; later attach the USB receiver to S8MS and scan once.
 On TB320FC, a USB-A receiver requires an OTG adapter and is not an assumed test target.
 Tire installation waits for the pressure gauge.
+
+## Git pull workflow check — 2026-11-16
+
+TPMS-GIT-PULL-CHECK-20261116: README-only change for verifying AndroidIDE fetch/pull; no app code changed.
