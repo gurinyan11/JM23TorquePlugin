@@ -8,8 +8,8 @@ android {
         applicationId 'jp.jb23.tpmsplugin'
         minSdk 23
         targetSdk 35
-        versionCode 1
-        versionName '0.1-torque-link'
+        versionCode 2
+        versionName '0.2-usb-enumeration'
     }
 
     compileOptions {
