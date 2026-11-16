@@ -74,6 +74,9 @@
 
     </LinearLayout>
 
+    <Button android:id="@+id/tpms_usb_start" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="START USB TPMS TEST" />
+    <Button android:id="@+id/tpms_usb_stop" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="STOP USB TPMS TEST" />
+    <TextView android:id="@+id/tpms_usb_status" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="TPMS: not started" android:textIsSelectable="true" android:padding="6dp" />
     <Button android:id="@+id/start" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="START / RESTART DEBUG" />
     <Button android:id="@+id/stop" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="STOP" />
     <Button android:id="@+id/clear" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="CLEAR LOG" />
