@@ -14,6 +14,7 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
     private TextView status;
     private TextView fuelStatus;
+    private TextView tpmsStatus;
     private Button fuelBaseline;
     private Button fuelFill;
     private Button fuelFullTank;
@@ -57,6 +58,22 @@ public class MainActivity extends Activity {
                     + "  |  Remain " + remainingText
                     + "  |  " + percentText);
 
+            android.content.SharedPreferences tpms = getSharedPreferences("jm23_tpms_usb", MODE_PRIVATE);
+            StringBuilder tpmsView = new StringBuilder("TPMS: " + tpms.getString("state", "not started"));
+            tpmsView.append("\\nUSB IDs: ").append(tpms.getString("usb_devices", "(not scanned)"));
+            tpmsView.append("\\nTorque: ").append(tpms.getString("torque_status", "not connected"));
+            tpmsView.append("\\nRaw reads: ").append(tpms.getLong("raw_reads", 0));
+            tpmsView.append("  Frames: ").append(tpms.getLong("decoded_frames", 0));
+            for (String wheel : new String[]{"fl","fr","rl","rr"}) {
+                long last = tpms.getLong(wheel + "_last_received", 0);
+                if (last != 0) tpmsView.append("\\n").append(wheel.toUpperCase(java.util.Locale.US))
+                    .append(" ").append(tpms.getFloat(wheel + "_bar", 0f)).append("bar ")
+                    .append(tpms.getInt(wheel + "_temp_c", 0)).append("°C")
+                    .append(tpms.getBoolean(wheel + "_battery_low", false) ? " LOW BATTERY" : "")
+                    .append(tpms.getBoolean(wheel + "_no_signal", false) ? " NO SIGNAL" : "");
+            }
+            tpmsView.append("\\n").append(tpms.getString("raw_hex", ""));
+            tpmsStatus.setText(tpmsView.toString());
             String log = getSharedPreferences("debug", MODE_PRIVATE).getString("log", "");
 
             android.content.SharedPreferences rx =
@@ -86,6 +103,9 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         status = findViewById(R.id.status);
         fuelStatus = findViewById(R.id.fuel_status);
+        tpmsStatus = findViewById(R.id.tpms_usb_status);
+        findViewById(R.id.tpms_usb_start).setOnClickListener(v -> startTpmsUsb());
+        findViewById(R.id.tpms_usb_stop).setOnClickListener(v -> stopTpmsUsb());
         fuelBaseline = findViewById(R.id.fuel_baseline);
         android.widget.EditText fuelLitersInput = findViewById(R.id.fuel_liters_input);
         fuelFill = findViewById(R.id.fuel_fill);
@@ -150,6 +170,16 @@ public class MainActivity extends Activity {
             getSharedPreferences("debug", MODE_PRIVATE).edit().clear().apply();
             getSharedPreferences("jm23_rx_test", MODE_PRIVATE).edit().clear().apply();
         });
+    }
+
+    private void startTpmsUsb() {
+        Intent i = new Intent(this, TpmsUsbService.class).setAction(TpmsUsbService.ACTION_START);
+        if (Build.VERSION.SDK_INT >= 26) startForegroundService(i); else startService(i);
+    }
+
+    private void stopTpmsUsb() {
+        Intent i = new Intent(this, TpmsUsbService.class).setAction(TpmsUsbService.ACTION_STOP);
+        stopService(i);
     }
 
     private void sendFuelTankCapacity(double capacity) {
