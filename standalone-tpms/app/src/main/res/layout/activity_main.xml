@@ -11,7 +11,12 @@
     <TextView android:id="@+id/status" android:layout_width="match_parent"
         android:layout_height="wrap_content" android:text="Not tested"
         android:textIsSelectable="true" android:paddingTop="12dp" />
+    <Button android:id="@+id/scan_usb" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:text="SCAN CONNECTED USB DEVICES" />
+    <TextView android:id="@+id/usb_status" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:text="USB: not scanned"
+        android:textIsSelectable="true" android:paddingTop="12dp" />
     <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:text="Phase 0: no USB, no tire sensors, no ECU commands, no dummy PID."
+        android:text="Phase 1: USB identification only; no serial read, no sensor data, no ECU commands, no PID publication."
         android:paddingTop="16dp" />
 </LinearLayout>
