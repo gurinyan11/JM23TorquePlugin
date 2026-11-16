@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-feature android:name="android.hardware.usb.host" android:required="false" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -62,5 +63,13 @@
                 android:value="Reads the vehicle ECU through the locally installed Torque Pro service and publishes a JB23 RPM sensor back to Torque." />
         </service>
 
+        <service
+            android:name=".TpmsUsbService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Opt-in USB tire pressure sensor receiver for JM23 Torque integration testing." />
+        </service>
     </application>
 </manifest>
