@@ -60,19 +60,19 @@ public class MainActivity extends Activity {
 
             android.content.SharedPreferences tpms = getSharedPreferences("jm23_tpms_usb", MODE_PRIVATE);
             StringBuilder tpmsView = new StringBuilder("TPMS: " + tpms.getString("state", "not started"));
-            tpmsView.append("\\nUSB IDs: ").append(tpms.getString("usb_devices", "(not scanned)"));
-            tpmsView.append("\\nTorque: ").append(tpms.getString("torque_status", "not connected"));
-            tpmsView.append("\\nRaw reads: ").append(tpms.getLong("raw_reads", 0));
+            tpmsView.append("\nUSB IDs: ").append(tpms.getString("usb_devices", "(not scanned)"));
+            tpmsView.append("\nTorque: ").append(tpms.getString("torque_status", "not connected"));
+            tpmsView.append("\nRaw reads: ").append(tpms.getLong("raw_reads", 0));
             tpmsView.append("  Frames: ").append(tpms.getLong("decoded_frames", 0));
             for (String wheel : new String[]{"fl","fr","rl","rr"}) {
                 long last = tpms.getLong(wheel + "_last_received", 0);
-                if (last != 0) tpmsView.append("\\n").append(wheel.toUpperCase(java.util.Locale.US))
+                if (last != 0) tpmsView.append("\n").append(wheel.toUpperCase(java.util.Locale.US))
                     .append(" ").append(tpms.getFloat(wheel + "_bar", 0f)).append("bar ")
                     .append(tpms.getInt(wheel + "_temp_c", 0)).append("°C")
                     .append(tpms.getBoolean(wheel + "_battery_low", false) ? " LOW BATTERY" : "")
                     .append(tpms.getBoolean(wheel + "_no_signal", false) ? " NO SIGNAL" : "");
             }
-            tpmsView.append("\\n").append(tpms.getString("raw_hex", ""));
+            tpmsView.append("\n").append(tpms.getString("raw_hex", ""));
             tpmsStatus.setText(tpmsView.toString());
             String log = getSharedPreferences("debug", MODE_PRIVATE).getString("log", "");
 
