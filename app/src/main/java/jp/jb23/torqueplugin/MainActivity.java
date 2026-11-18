@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.widget.Button;
 import android.widget.TextView;
+import android.view.View;
 
 public class MainActivity extends Activity {
     private TextView status;
@@ -150,6 +151,27 @@ public class MainActivity extends Activity {
             getSharedPreferences("debug", MODE_PRIVATE).edit().clear().apply();
             getSharedPreferences("jm23_rx_test", MODE_PRIVATE).edit().clear().apply();
         });
+        applyPage(getIntent().getStringExtra("jm23_page"));
+    }
+
+    private void applyPage(String page) {
+        if (page == null) page = "fuel";
+        boolean fuel = "fuel".equals(page);
+        boolean diagnostics = "diagnostics".equals(page);
+        boolean settings = "settings".equals(page);
+        if (!fuel && !diagnostics && !settings) fuel = true;
+        int fuelVisibility = fuel ? View.VISIBLE : View.GONE;
+        int diagnosticsVisibility = diagnostics ? View.VISIBLE : View.GONE;
+        findViewById(R.id.fuel_status).setVisibility(fuelVisibility);
+        findViewById(R.id.fuel_baseline).setVisibility(fuelVisibility);
+        findViewById(R.id.fuel_liters_input).setVisibility(fuelVisibility);
+        findViewById(R.id.fuel_fill).setVisibility(fuelVisibility);
+        findViewById(R.id.fuel_full_tank).setVisibility(fuelVisibility);
+        findViewById(R.id.tank_capacity_row).setVisibility(settings ? View.VISIBLE : View.GONE);
+        findViewById(R.id.start).setVisibility(diagnosticsVisibility);
+        findViewById(R.id.stop).setVisibility(diagnosticsVisibility);
+        findViewById(R.id.clear).setVisibility(diagnosticsVisibility);
+        findViewById(R.id.debug_log_scroll).setVisibility(diagnosticsVisibility);
     }
 
     private void sendFuelTankCapacity(double capacity) {
