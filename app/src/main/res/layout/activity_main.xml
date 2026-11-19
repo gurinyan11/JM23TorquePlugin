@@ -3,83 +3,165 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="12dp">
 
-    <HorizontalScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fillViewport="true">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/back_to_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="← Menu"
+            android:textAllCaps="false" />
+        <TextView
+            android:id="@+id/page_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingStart="12dp"
+            android:text="Fuel Management"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/fuel_panel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fuel status"
+            android:textStyle="bold"
+            android:paddingTop="12dp" />
         <TextView
             android:id="@+id/fuel_status"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Fuel: --"
             android:textSize="16sp"
             android:textIsSelectable="true"
-            android:paddingBottom="8dp" />
-
-    </HorizontalScrollView>
-
-    <Button
-        android:id="@+id/fuel_baseline"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="FULL TANK BASELINE" />
-
-    <EditText
-        android:id="@+id/fuel_liters_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:hint="Fill liters (e.g. 28.50)" />
-
-    <Button
-        android:id="@+id/fuel_fill"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="RECORD FULL TANK FILL" />
-
-    <Button
-        android:id="@+id/fuel_full_tank"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="FULL TANK" />
-
-    <LinearLayout
-        android:id="@+id/tank_capacity_row"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/fuel_tank_39"
-            android:layout_width="0dp"
+            android:padding="12dp" />
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="39 L" />
-
-        <Button
-            android:id="@+id/fuel_tank_40"
-            android:layout_width="0dp"
+            android:text="Refueling"
+            android:textStyle="bold"
+            android:paddingTop="18dp" />
+        <EditText
+            android:id="@+id/fuel_liters_input"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="40 L" />
-
+            android:inputType="numberDecimal"
+            android:hint="Fill liters (e.g. 28.50)" />
         <Button
-            android:id="@+id/fuel_tank_41"
-            android:layout_width="0dp"
+            android:id="@+id/fuel_fill"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="41 L" />
-
+            android:text="RECORD FULL TANK FILL" />
+        <Button
+            android:id="@+id/fuel_full_tank"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="FULL TANK" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Calibration"
+            android:textStyle="bold"
+            android:paddingTop="18dp" />
+        <Button
+            android:id="@+id/fuel_baseline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="FULL TANK BASELINE" />
     </LinearLayout>
 
-    <Button android:id="@+id/start" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="START / RESTART DEBUG" />
-    <Button android:id="@+id/stop" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="STOP" />
-    <Button android:id="@+id/clear" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="CLEAR LOG" />
+    <LinearLayout
+        android:id="@+id/diagnostics_panel"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button android:id="@+id/start"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="START / RESTART" />
+            <Button android:id="@+id/stop"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="STOP" />
+        </LinearLayout>
+        <Button android:id="@+id/clear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CLEAR LOG" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ECU reception / debug log"
+            android:textStyle="bold"
+            android:paddingTop="8dp" />
+        <ScrollView
+            android:id="@+id/debug_log_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true">
+            <TextView android:id="@+id/status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No debug data yet. Press START."
+                android:textSize="14sp"
+                android:textIsSelectable="true"
+                android:padding="8dp" />
+        </ScrollView>
+    </LinearLayout>
 
-    <ScrollView android:id="@+id/debug_log_scroll" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:fillViewport="true">
-        <TextView android:id="@+id/status" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="No debug data yet. Press START." android:textSize="14sp" android:textIsSelectable="true" android:paddingTop="12dp" />
-    </ScrollView>
+    <LinearLayout
+        android:id="@+id/settings_panel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tank capacity"
+            android:textStyle="bold"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp" />
+        <LinearLayout
+            android:id="@+id/tank_capacity_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button android:id="@+id/fuel_tank_39"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="39 L" />
+            <Button android:id="@+id/fuel_tank_40"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="40 L" />
+            <Button android:id="@+id/fuel_tank_41"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="41 L" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
