@@ -151,27 +151,18 @@ public class MainActivity extends Activity {
             getSharedPreferences("debug", MODE_PRIVATE).edit().clear().apply();
             getSharedPreferences("jm23_rx_test", MODE_PRIVATE).edit().clear().apply();
         });
+        findViewById(R.id.back_to_menu).setOnClickListener(v -> finish());
         applyPage(getIntent().getStringExtra("jm23_page"));
     }
 
     private void applyPage(String page) {
-        if (page == null) page = "fuel";
-        boolean fuel = "fuel".equals(page);
-        boolean diagnostics = "diagnostics".equals(page);
-        boolean settings = "settings".equals(page);
-        if (!fuel && !diagnostics && !settings) fuel = true;
-        int fuelVisibility = fuel ? View.VISIBLE : View.GONE;
-        int diagnosticsVisibility = diagnostics ? View.VISIBLE : View.GONE;
-        findViewById(R.id.fuel_status).setVisibility(fuelVisibility);
-        findViewById(R.id.fuel_baseline).setVisibility(fuelVisibility);
-        findViewById(R.id.fuel_liters_input).setVisibility(fuelVisibility);
-        findViewById(R.id.fuel_fill).setVisibility(fuelVisibility);
-        findViewById(R.id.fuel_full_tank).setVisibility(fuelVisibility);
-        findViewById(R.id.tank_capacity_row).setVisibility(settings ? View.VISIBLE : View.GONE);
-        findViewById(R.id.start).setVisibility(diagnosticsVisibility);
-        findViewById(R.id.stop).setVisibility(diagnosticsVisibility);
-        findViewById(R.id.clear).setVisibility(diagnosticsVisibility);
-        findViewById(R.id.debug_log_scroll).setVisibility(diagnosticsVisibility);
+        if (!"diagnostics".equals(page) && !"settings".equals(page)) page = "fuel";
+        findViewById(R.id.fuel_panel).setVisibility("fuel".equals(page) ? View.VISIBLE : View.GONE);
+        findViewById(R.id.diagnostics_panel).setVisibility("diagnostics".equals(page) ? View.VISIBLE : View.GONE);
+        findViewById(R.id.settings_panel).setVisibility("settings".equals(page) ? View.VISIBLE : View.GONE);
+        ((TextView) findViewById(R.id.page_title)).setText(
+                "fuel".equals(page) ? "Fuel Management" :
+                "diagnostics".equals(page) ? "Diagnostics" : "Settings");
     }
 
     private void sendFuelTankCapacity(double capacity) {
