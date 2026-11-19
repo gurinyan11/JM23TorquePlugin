@@ -1,5 +1,5 @@
 package jp.jb23.torqueplugin;
 
-/** Torque requires the direct app plugin entry activity to be named PluginActivity. */
-public class PluginActivity extends MainActivity {
+/** Entry point launched by Torque Pro; show the same top menu as the app launcher. */
+public class PluginActivity extends MenuActivity {
 }
