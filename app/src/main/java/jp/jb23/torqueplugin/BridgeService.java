@@ -427,7 +427,7 @@ Double throttle = extractThrottle(raw);
                     "JM23 Coolant Temp",
                     "JM23 Coolant",
                     "°C",
-                    150f,
+                    130f,
                     -40f,
                     coolant.floatValue(),
                     null
@@ -460,7 +460,7 @@ if (map != null && map >= 20 && map <= 250) {
         "JM23 MAP",
         "JM23 MAP",
         "kPa",
-        250f,
+        200f,
         20f,
         map.floatValue(),
         null
@@ -482,8 +482,8 @@ if (map != null && map >= 20 && map <= 250) {
                 "JM23 Ignition Advance",
                 "JM23 Ign Adv",
                 "°",
-                64f,
-                -64f,
+                60f,
+                -20f,
                 ignition.floatValue(),
                 null
             );
@@ -515,8 +515,8 @@ if (map != null && map >= 20 && map <= 250) {
                 "JM23 Total Fuel Trim",
                 "JM23 Total Trim",
                 "%",
-                200f,
-                -200f,
+                100f,
+                -100f,
                 totalTrim.floatValue(),
                 null
             );
@@ -526,8 +526,8 @@ if (map != null && map >= 20 && map <= 250) {
                 "JM23 A/F Sensor 1",
                 "JM23 A/F 1",
                 "mA",
-                128f,
-                -128f,
+                5f,
+                -5f,
                 afSensor1.floatValue(),
                 null
             );
@@ -537,7 +537,7 @@ if (map != null && map >= 20 && map <= 250) {
                 "JM23 A/F Sensor 2",
                 "JM23 A/F 2",
                 "V",
-                5f,
+                1.2f,
                 0f,
                 afSensor2.floatValue(),
                 null
@@ -644,8 +644,8 @@ if (map != null && map >= 20 && map <= 250) {
                 "JM23 Refrigerant Pressure",
                 "JM23 Refrigerant Pressure",
                 "kPa",
-                10000f,
-                -2000f,
+                3000f,
+                0f,
                 refrigerantPressure.floatValue(),
                 null
             );
@@ -800,7 +800,7 @@ if (map != null && map >= 20 && map <= 250) {
                 "JM23 Injection Time",
                 "JM23 Injection",
                 "ms",
-                100f,
+                20f,
                 0f,
                 injectionTime.floatValue(),
                 null
@@ -834,7 +834,7 @@ if (map != null && map >= 20 && map <= 250) {
                 "JM23 Baro",
                 "kPa",
                 120f,
-                50f,
+                70f,
                 barPressure.floatValue(),
                 null
             );
@@ -844,8 +844,8 @@ if (map != null && map >= 20 && map <= 250) {
                 "JM23 Relative Pressure",
                 "JM23 Rel Press",
                 "bar",
-                2f,
-                -2f,
+                1f,
+                -1f,
                 relPressure.floatValue(),
                 null
             );
@@ -855,8 +855,8 @@ if (map != null && map >= 20 && map <= 250) {
                     "JM23 Battery Voltage",
                     "JM23 Battery",
                     "V",
-                    20f,
-                    0f,
+                    16f,
+                    8f,
 
                     batteryVoltage.floatValue(),
                     null
@@ -878,7 +878,7 @@ if (map != null && map >= 20 && map <= 250) {
                 "JM23 Vehicle Speed",
                 "JM23 Speed",
                 "km/h",
-                255f,
+                140f,
                 0f,
                 speed.floatValue(),
                 null
